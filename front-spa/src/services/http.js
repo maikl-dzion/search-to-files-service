@@ -23,13 +23,13 @@ export default {
     methods: {
 
         setApiUrl(path = null) {
-            const url  = (!path)  ? this.apiPath : path;
+            const url  = (path)  ? path : this.apiPath;
             this.apiUrl = this.host + url;
         },
 
         getApiUrl(url, path = null) {
-            if(path)
-              this.setApiUrl(path);
+            console.log(location)
+            if(path) this.setApiUrl(path);
             return this.apiUrl + url;
         },
 
@@ -88,9 +88,8 @@ export default {
             try {
                 const response = await axios.get(uri);
                 let result = this.responseHandler(response, fn);
-                if(result)
-                    return result;
-                console.log(response);
+                if(result) return result;
+                console.log(result);
             } catch (error) {
                 // lg(['HTTP ERROR - GET', error]);
                 console.error(error);
@@ -114,30 +113,17 @@ export default {
         responseHandler(response, fn = null) {
 
             let httpInfo = this.setHttpInfo(response);
-
-            if(typeof response.data != 'object') {
-                // this.createEvent('http-info', httpInfo);
-                // lg(['HTTP ERROR', response.data]);
-                return false;
-            }
+            const typeData = typeof response.data;
+            if(typeData != 'object') return false;
 
             const data = response.data;
-
-            // if(!this.isEmpty(data.error)) {
-            //     this.createEvent('response-error', data.error);
-            //     return false;
-            // }
-
             httpInfo['warn'] = (!data.warn) ? data.warn : '';
             httpInfo['info'] = (!data.info) ? data.info : '';
-            //this.createEvent('http-info', httpInfo);
-            //this.createEvent('response-data', data);
 
             if(fn) {
                 fn(data);
                 return false;
             }
-
             return data;
         },
 

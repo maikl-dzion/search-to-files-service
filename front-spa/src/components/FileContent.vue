@@ -1,10 +1,8 @@
 <template>
 <div>
-  <div>
-    <div v-for="(value, i) in fileContentList" :key="i" >
-      <pre>{{value}}</pre>
-    </div>
-  </div>
+
+  <pre v-html="fileContent"></pre>
+
 </div>
 </template>
 
@@ -14,20 +12,21 @@ export default {
   name: "FileContentBlock",
   data() {
     return {
-      fileContent : [],
+      fileContentStr : '',
     }
   },
   computed : {
 
     ...mapGetters([
         'getFileContent',
-        'getFilePath'
+        'getDirPath'
     ]),
 
-    fileContentList() {
+    fileContent() {
         let contentList = (this.getFileContent.length) ? this.getFileContent : [];
-        return contentList;
+        return  contentList.join('');
     },
+
   }
 }
 </script>

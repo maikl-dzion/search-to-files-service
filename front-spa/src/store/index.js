@@ -6,17 +6,17 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 
   state: {
-     filePath     : "",
+     dirPath     : "",
      searchValue  : "ini_set('error",
-     fileContent  : [],
+     fileContent   : [],
      responseError : [],
      searchResult  : [],
      searchError   : [],
   },
 
   mutations: {
-       setFilePath(state, data) {
-          state.filePath = data
+       setDirPath(state, data) {
+          state.dirPath = data
        },
 
        setSearchValue(state, data) {
@@ -38,8 +38,8 @@ export default new Vuex.Store({
 
   actions: {
 
-      setFilePath(context, data) {
-          context.commit('setFilePath', data)
+      setDirPath(context, data) {
+          context.commit('setDirPath', data)
       },
 
       setSearchValue(context, data) {
@@ -60,8 +60,8 @@ export default new Vuex.Store({
   },
   getters : {
 
-      getFilePath(state) {
-         return state.filePath
+      getDirPath(state) {
+         return state.dirPath
       },
 
       getSearchValue(state) {

@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/search-to-files-service/front-spa/web'
+  publicPath: '/search-to-files-service/front-spa'
 }

@@ -51,13 +51,13 @@ export default {
   methods: {
 
     ...mapActions([
-       'setFilePath'
+       'setDirPath'
     ]),
 
     getChildDir() {
         if(!this.openChildFilesDir) {
             const path = this.path;
-            this.setFilePath(path);
+            this.setDirPath(path);
             this.post('/scan/dir/child', { path }, this.setChildFilesList);
         } else {
             this.openChildFilesDir = false;

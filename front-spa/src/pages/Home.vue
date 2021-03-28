@@ -11,8 +11,8 @@
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" style="border: 1px gainsboro solid">
 
       <p uk-margin style="padding: 0px; margin: 0px 0px 10px 0px">
-        <button @click="setDirPath('server')" class="uk-button uk-button-primary uk-button-small"> Директория web-сервера</button>
-        <button @click="setDirPath('system')" class="uk-button uk-button-primary uk-button-small" style="margin-left: 10px;"> Директория OS</button>
+        <button @click="getRootPath('server')" class="uk-button uk-button-primary uk-button-small"> Директория web-сервера</button>
+        <button @click="getRootPath('system')" class="uk-button uk-button-primary uk-button-small" style="margin-left: 10px;"> Директория OS</button>
       </p>
 
       <SearchForm/>
@@ -38,12 +38,8 @@
                     </ul>
 
                     <ul class="uk-switcher uk-margin">
-                        <li>
-                            <SearchResultBlock/>
-                        </li>
-                        <li>
-                            <FileContentBlock/>
-                        </li>
+                        <li><SearchResult/></li>
+                        <li><FileContent/></li>
                         <li>Показ ошибок</li>
                         <li>Доп. инфо</li>
                     </ul>
@@ -64,43 +60,36 @@
 // @ is an alias to /src
 import {mapActions, mapGetters} from 'vuex'
 import SearchForm from '@/components/SearchForm'
-import SearchResultBlock from '@/components/SearchResultBlock'
-import FileContentBlock from "@/components/FileContentBlock";
+import SearchResult from '@/components/SearchResult'
+import FileContent from "@/components/FileContent";
 
 export default {
   name: 'Home',
-  /////////////
   data() {
     return {
        rootDirList : [],
     }
   },
-
-  /////////////
   computed : {
       ...mapGetters([
           // 'getFileContent',
           // 'getSearchResult'
       ]),
   },
-
-  /////////////
   components: {
     SearchForm,
-    SearchResultBlock,
-    FileContentBlock
-  },
-  /////////////
-  created() {
-     this.setDirPath('server');
-     // this.getRootDirList()
+    SearchResult,
+    FileContent
   },
 
-  /////////////
+  created() {
+     this.getRootPath('server');
+  },
+
   methods: {
 
       ...mapActions([
-        'setFilePath'
+        'setDirPath'
       ]),
 
       async getRootDirList(type = 'server') {
@@ -109,11 +98,11 @@ export default {
            this.rootDirList = response.result;
       },
 
-      setDirPath(type) {
+      getRootPath(type) {
           this.getRootDirList(type)
           this.get('/get/dir/path/' + type, response => {
               const path = response['result'];
-              this.setFilePath(path);
+              this.setDirPath(path);
           });
       },
 
