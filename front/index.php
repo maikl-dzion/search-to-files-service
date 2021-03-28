@@ -24,7 +24,7 @@
     <style></style>
 
     <script>
-        const ApiUrl = location.href + 'api/index.php';
+        const ApiUrl = '/../api/index.php';
     </script>
 
 </head>
@@ -35,14 +35,7 @@
     <nav>
         <div class="container">
             <h1 style="font-size: 17px; font-style: italic">Поисковый сервис</h1>
-            <div id="menu">
-<!--                <ul class="toplinks">-->
-<!--                    <li><a href="http://www.greepit.com/Opineo/admin-form.html">Opineo Website </a></li>-->
-<!--                    <li><a href="http://www.egrappler.com/">eGrappler</a></li>-->
-<!--                    <li><a href="../doc-template-red/docs.html">Red Theme</a></li>-->
-<!--                    <li><a href="../doc-template-green/docs.html">Green Theme</a></li>-->
-<!--                </ul>-->
-            </div>
+            <div id="menu"></div>
             <a id="menu-toggle" href="#" class=" ">&#9776;</a>
         </div>
     </nav>
