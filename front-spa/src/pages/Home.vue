@@ -92,7 +92,8 @@ export default {
   },
   /////////////
   created() {
-     this.getRootDirList()
+     this.setDirPath('server');
+     // this.getRootDirList()
   },
 
   /////////////

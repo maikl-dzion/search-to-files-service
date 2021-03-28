@@ -5,44 +5,51 @@
 
           <div class="shadow overflow-hidden sm:rounded-md">
 
-            <!--- Inputs  -->
-            <div class="px-3 py-3 bg-white sm:p-2">
-              <div class="grid grid-cols-6 gap-2">
+                <!--- Inputs  -->
+                <div class="px-3 py-3 bg-white sm:p-2">
+                  <div class="grid grid-cols-6 gap-2">
 
-                <div class="col-span-12 sm:col-span-12" style="border: 0px gainsboro solid; padding:0px; margin: 0px;">
-                    <div class="uk-margin" style="width:100%; border: 0px gainsboro solid; padding:0px; margin: 0px;">
-                       <label  for="api-url" class="block text-sm font-medium text-gray-700">ApiUrl</label>
-                       <input  v-model="apiUrl" id="api-url" class="uk-input uk-form-small" type="text" placeholder="Api Url" >
+                    <div class="col-span-12 sm:col-span-12" style="border: 0px gainsboro solid; padding:0px; margin: 0px;">
+                        <div class="uk-margin" style="width:100%; border: 0px gainsboro solid; padding:0px; margin: 0px;">
+                           <label  for="api-url" class="block text-sm font-medium text-gray-700">ApiUrl</label>
+                           <input  v-model="apiUrl" id="api-url" class="uk-input uk-form-small" type="text" placeholder="Api Url" >
+                        </div>
                     </div>
+
+                    <div class="col-span-12 sm:col-span-12" style="border: 0px gainsboro solid; padding:0px; margin: 0px;">
+                        <div class="uk-margin" style="width:100%; border: 0px gainsboro solid; padding:0px; margin: 0px;">
+                          <label  for="item-path" class="block text-sm font-medium text-gray-700">FilePath</label>
+                          <input  v-model="getFilePath" id="item-path" class="uk-input uk-form-small" type="text" placeholder="FilePath" >
+                        </div>
+                    </div>
+
+                    <div class="col-span-12 sm:col-span-12" style="border: 0px gainsboro solid; padding:0px; margin: 0px;">
+                        <div class="uk-margin" style="width:100%; border: 0px gainsboro solid; padding:0px; margin: 0px;">
+                          <label  for="search-text" class="block text-sm font-medium text-gray-700">Search text</label>
+                          <input  v-model="searchValue" id="search-text" class="uk-input uk-form-small" type="text" placeholder="Search text">
+                        </div>
+                    </div>
+
+                  </div>
                 </div>
 
-                <div class="col-span-12 sm:col-span-12" style="border: 0px gainsboro solid; padding:0px; margin: 0px;">
-                    <div class="uk-margin" style="width:100%; border: 0px gainsboro solid; padding:0px; margin: 0px;">
-                      <label  for="item-path" class="block text-sm font-medium text-gray-700">FilePath</label>
-                      <input  v-model="getFilePath" id="item-path" class="uk-input uk-form-small" type="text" placeholder="FilePath" >
-                    </div>
+                <!--- Submit Button -->
+                <div class="px-4 py-3 bg-gray-50 text-left sm:px-6">
+                  <button @click="searchExecute" class="uk-button uk-button-primary uk-button-small"> Выполнить поиск</button>
+    <!--              <button @click="searchExecute" style="width: 230px"-->
+    <!--                      class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
+    <!--                      Выполнить-->
+    <!--              </button>-->
                 </div>
-
-                <div class="col-span-12 sm:col-span-12" style="border: 0px gainsboro solid; padding:0px; margin: 0px;">
-                    <div class="uk-margin" style="width:100%; border: 0px gainsboro solid; padding:0px; margin: 0px;">
-                      <label  for="search-text" class="block text-sm font-medium text-gray-700">Search text</label>
-                      <input  v-model="searchValue" id="search-text" class="uk-input uk-form-small" type="text" placeholder="Search text">
-                    </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!--- Submit Button -->
-            <div class="px-4 py-3 bg-gray-50 text-left sm:px-6">
-              <button @click="searchExecute" class="uk-button uk-button-primary uk-button-small"> Выполнить поиск</button>
-<!--              <button @click="searchExecute" style="width: 230px"-->
-<!--                      class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
-<!--                      Выполнить-->
-<!--              </button>-->
-            </div>
 
           </div>
+
+          <div v-if="timeStart" style="display: flex">
+              <div style="border: 1px #007eb2 solid; margin:4px; font-style: italic; font-size: 11px; width: 100px; text-align: center">Start = {{timeStart}} </div>
+              <div style="border: 1px #007eb2 solid; margin:4px; font-style: italic; font-size: 11px; width: 100px; text-align: center">{{timeRequest}} </div>
+              <div style="border: 1px #007eb2 solid; margin:4px; font-style: italic; font-size: 11px; width: 100px; text-align: center" v-html="timeEnd"></div>
+          </div>
+
 
     </div> <!-- mt-5 md:mt-0 md:col-span-2 -->
   </div> <!-- md:grid md:grid-cols-3 md:gap-6 -->
@@ -58,15 +65,17 @@ export default {
   data() {
     return {
       // searchValue : '',
+      timeRequest : "",
+      timeStart   : "",
+      timeEnd     : "",
     }
   },
-  computed : {
 
+  computed : {
       ...mapGetters([
           'getFilePath',
           'getSearchValue'
       ]),
-
       searchValue() {
          return this.getSearchValue;
       },
@@ -79,7 +88,9 @@ export default {
      ]),
 
      searchExecute() {
-         const url = '/find/text';
+         this.timeRequest = '';
+         this.timeStart   = '';
+         this.timeEnd   = `<div style="color:red">...Идет поиск, подождите</div>`;
          const path = this.getFilePath;
          const text = this.searchValue;
          if(!path || !text) {
@@ -87,13 +98,20 @@ export default {
               return false;
          }
 
-         this.post(url, { path, text }, response => {
+         this.timeStart = this.displayTime();
+         let intervalId = setInterval( () => {
+            this.timeRequest = this.displayTime();
+         }, 500)
 
+         const url = '/find/text';
+         this.post(url, { path, text }, response => {
+             clearInterval(intervalId)
+             //this.timeEnd = this.timeRequest - this.timeStart;
+             this.timeEnd   = `<div style="color:green">Поиск завершен</div>`;
              if ('error' in response && response.error.length) {
                 alert('Error: ' + response['error'])
                 return false;
              }
-
              const results = response.result;
              this.setSearchResult(results);
          });
@@ -105,6 +123,24 @@ export default {
        // this.setStore('text_value', value);
        // this.setStore('api_url'   , this.apiUrl);
      },
+
+     displayTime() {
+
+          var currentTime = new Date()
+          let hours = currentTime.getHours()
+          let minutes = currentTime.getMinutes()
+          let seconds = currentTime.getSeconds()
+
+          if (minutes < 10) minutes = "0" + minutes
+          if (seconds < 10) seconds = "0" + seconds
+
+          let result = hours + " : " + minutes + " : " + seconds + " ";
+          // if(hours > 11) result += "PM"
+          // else    result += "AM"
+          return result;
+
+     },
+
   }
 }
 </script>

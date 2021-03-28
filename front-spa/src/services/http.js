@@ -5,13 +5,11 @@ export default {
 
     data () {
        return {
-
-           host    : 'http://localhost',
-           apiPath : '/search-to-files-service/api/index.php',
-           apiUrl  : '',
-
-           jwtToken: false,
-           authData: {
+           host     : 'http://localhost',
+           apiPath  : '/search-to-files-service/api/index.php',
+           apiUrl   : "",
+           jwtToken : false,
+           authData : {
                'user'    : 'admin',
                'password': '1234',
            },

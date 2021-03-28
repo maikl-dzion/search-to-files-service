@@ -17,6 +17,7 @@ Vue.component('tree-dir-items', TreeDirItems);
 Vue.mixin(http);
 Vue.mixin(services);
 
+// const ApiUrl = 'http://localhost/search-to-files-service/api/index.php';
 Vue.config.productionTip = false
 
 new Vue({
