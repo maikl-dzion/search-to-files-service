@@ -3,7 +3,7 @@ import App    from './App.vue'
 import router from './router'
 import store  from './store'
 import http   from './services/http'
-import services   from './services/services'
+import services  from './services/services'
 
 import TreeDirItems from '@/components/TreeDirItems'
 Vue.component('tree-dir-items', TreeDirItems);

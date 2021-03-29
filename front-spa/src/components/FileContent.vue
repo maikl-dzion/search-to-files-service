@@ -1,7 +1,7 @@
 <template>
 <div>
 
-  <pre v-html="fileContent"></pre>
+  <pre >{{fileContent}}</pre>
 
 </div>
 </template>
