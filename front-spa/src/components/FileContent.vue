@@ -12,7 +12,6 @@ export default {
   name: "FileContentBlock",
   data() {
     return {
-      fileContentStr : '',
     }
   },
   computed : {

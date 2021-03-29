@@ -4,51 +4,61 @@
     <header class="bg-white shadow" style="border: 0px blue solid">
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" style="border: 0px gainsboro solid">
 <!--         <h1 class="text-3xl font-bold text-gray-900">File Manager</h1>-->
+        <p uk-margin style="padding: 0px; margin: 0px 0px 0px 0px">
+          <button @click="getRootPath('server')" class="uk-button uk-button-primary uk-button-small"> Директория web-сервера </button>
+          <button @click="getRootPath('system')" class="uk-button uk-button-primary uk-button-small" style="margin-left: 10px;"> Директория OS</button>
+          <button @click="homePanelPos = !homePanelPos" class="uk-button uk-button-primary uk-button-small" style="margin-left: 10px;"> Изменить расположение формы</button>
+        </p>
       </div>
     </header>
 
     <main style="border: 0px blue solid" >
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" style="border: 1px gainsboro solid">
 
-      <p uk-margin style="padding: 0px; margin: 0px 0px 10px 0px">
-        <button @click="getRootPath('server')" class="uk-button uk-button-primary uk-button-small"> Директория web-сервера</button>
-        <button @click="getRootPath('system')" class="uk-button uk-button-primary uk-button-small" style="margin-left: 10px;"> Директория OS</button>
-      </p>
+        <template v-if="homePanelPos" >
+            <SearchForm/>
+        </template>
 
-      <SearchForm/>
+        <section class="text-gray-600 body-font">
+            <div class="container px-2 py-2 mx-auto flex flex-col"  style="border: 0px red solid"><div>
 
-      <section class="text-gray-600 body-font">
-        <div class="container px-2 py-2 mx-auto flex flex-col"  style="border: 0px red solid"><div>
+                <div class="flex flex-col sm:flex-row mt-4">
 
-            <div class="flex flex-col sm:flex-row mt-10">
-                <div class="sm:w-1/2 text-center sm:pr-8 sm:py-8"
-                      style="text-align: left; border-top: 1px gainsboro solid" >
-                      <div v-for="(item, name) in rootDirList" :key="name" >
-                          <tree-dir-items :name="name" :item="item" />
-                      </div>
+                    <!--- Дерево директорий ---->
+                    <div class="sm:w-1/2 text-center sm:pr-8 sm:py-8"
+                          style="text-align: left; border-top: 1px gainsboro solid" >
+                          <div v-for="(item, name) in rootDirList" :key="name" >
+                              <tree-dir-items :name="name" :item="item" />
+                          </div>
+                    </div>
+
+                    <!--- Панель показа результатов ---->
+                    <div class="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left"
+                         style="border-top: 1px gainsboro solid">
+
+                      <template v-if="!homePanelPos" >
+                          <SearchForm/>
+                      </template>
+
+                        <ul uk-tab>
+                          <li><a href="#">Результаты поиска</a></li>
+                          <li><a href="#">Содержимое файла</a></li>
+                          <li><a href="#">Показ ошибок</a></li>
+                          <li><a href="#">Доп. инфо</a></li>
+                        </ul>
+
+                        <ul class="uk-switcher uk-margin">
+                            <li><SearchResult/></li>
+                            <li><FileContent/></li>
+                            <li>Показ ошибок</li>
+                            <li>Доп. инфо</li>
+                        </ul>
+
+                    </div>
                 </div>
-                <div class="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left"
-                     style="border-top: 1px gainsboro solid">
 
-                    <ul uk-tab>
-                      <li><a href="#">Результаты поиска</a></li>
-                      <li><a href="#">Содержимое файла</a></li>
-                      <li><a href="#">Показ ошибок</a></li>
-                      <li><a href="#">Доп. инфо</a></li>
-                    </ul>
-
-                    <ul class="uk-switcher uk-margin">
-                        <li><SearchResult/></li>
-                        <li><FileContent/></li>
-                        <li>Показ ошибок</li>
-                        <li>Доп. инфо</li>
-                    </ul>
-
-                </div>
-            </div>
-
-        </div></div>
-      </section>
+             </div></div>
+         </section>
 
     </div></main>
 
@@ -67,7 +77,8 @@ export default {
   name: 'Home',
   data() {
     return {
-       rootDirList : [],
+       rootDirList  : [],
+       homePanelPos : false,
     }
   },
   computed : {
@@ -99,6 +110,8 @@ export default {
       },
 
       getRootPath(type) {
+          const activeClass = 'tree__item-active';
+          this.elemRemoveClass(activeClass);
           this.getRootDirList(type)
           this.get('/get/dir/path/' + type, response => {
               const path = response['result'];

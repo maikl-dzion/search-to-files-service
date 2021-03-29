@@ -108,6 +108,15 @@ export default {
 
         },
 
+        elemRemoveClass(activeClass) {
+            const elems = document.querySelectorAll('.' + activeClass)
+            for(let i in elems) {
+                const el = elems[i];
+                if(el.classList)
+                    el.classList.remove(activeClass)
+            }
+        }
+
     },
 
 };

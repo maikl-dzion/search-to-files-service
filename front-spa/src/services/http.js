@@ -28,7 +28,7 @@ export default {
         },
 
         getApiUrl(url, path = null) {
-            console.log(location)
+            // console.log(location)
             if(path) this.setApiUrl(path);
             return this.apiUrl + url;
         },

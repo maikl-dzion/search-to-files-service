@@ -19,7 +19,8 @@
                     <div class="col-span-12 sm:col-span-12" style="border: 0px gainsboro solid; padding:0px; margin: 0px;">
                         <div class="uk-margin" style="width:100%; border: 0px gainsboro solid; padding:0px; margin: 0px;">
                           <label  for="item-path" class="block text-sm font-medium text-gray-700">DirPath</label>
-                          <input  v-model="getDirPath" id="item-path" class="uk-input uk-form-small" type="text" placeholder="DirPath" >
+                          <input  v-model="getDirPath" id="item-path" class="uk-input uk-form-small" type="text" placeholder="DirPath"
+                                  style="color: black; background: lightskyblue;">
                         </div>
                     </div>
 
@@ -60,7 +61,7 @@ export default {
   name: "SearchForm",
   data() {
     return {
-        searchValue : "ini_set('error",
+        searchValue : "",
         timeRequest : "",
         timeStart   : "",
         timeEnd     : "",
