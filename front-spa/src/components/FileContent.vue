@@ -1,7 +1,7 @@
 <template>
 <div>
 
-  <pre >{{fileContent}}</pre>
+  <pre style="background: ghostwhite; color:black;" >{{fileContent}}</pre>
 
 </div>
 </template>
